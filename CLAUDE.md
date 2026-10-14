@@ -32,3 +32,15 @@ Pipeline personal: video de clase o reunión → transcripción local con faster
 - En las notas, la cursiva y los bloques `> [!claude]` marcan lo que agregó Claude; no uses cursiva para otra cosa.
 - Cambios de formato de las notas van en `prompts/`, no en `apuntes.py`, salvo que afecten el glosario o los títulos `##` que el programa lee.
 - Después de cambiar `apuntes.py`, corre las pruebas.
+
+## Extensiones (`extensiones/`, ver EXTENSIONES.md)
+- `notas_api.py` + `llm.py`: modo API de Anthropic (streaming, modelo por tarea, costos en `<trabajo>/costos.jsonl`).
+- `indice.py`: la despensa. Parte las notas en fragmentos (apuntes, bloques `[!claude]` aparte y transcripción
+  con minuto), los guarda en Chroma (`<trabajo>/indice/`) y busca con embeddings + BM25 fusionados con RRF.
+- `preguntas.py`: agente con la herramienta `buscar_apuntes`; solo muestra respuestas que citan fragmentos reales.
+- `cuenta.py` (`pizza cuenta`, `pizza cotiza`) y `cli.py` (subcomandos).
+- Las extensiones no importan `apuntes.py`: lanzan `ErrorExtension` y los ganchos la convierten en `ErrorApuntes`.
+- Excepción a "solo biblioteca estándar + faster-whisper": las extensiones usan anthropic, chromadb, fastembed y
+  snowballstemmer, importados dentro de las funciones para que el núcleo funcione sin ellos.
+- Nunca guardes índices ni costos en el vault.
+- Pruebas: `pruebas/test_extensiones.py` (API, embeddings y `claude` falsos; sin red).

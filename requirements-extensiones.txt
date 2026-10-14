@@ -1,0 +1,5 @@
+# Paquetes de las extensiones (modo API y preguntas a tus clases). El núcleo del pipeline no los necesita.
+anthropic>=1.0,<2       # SDK de la API de Anthropic
+chromadb>=1.0,<2        # base de datos vectorial local para la despensa
+fastembed>=0.8,<1       # embeddings en CPU con ONNX, sin PyTorch
+snowballstemmer>=2.2    # raíces de palabras en español para BM25

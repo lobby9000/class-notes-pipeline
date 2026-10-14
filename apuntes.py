@@ -615,6 +615,8 @@ def limpiar_respuesta(texto: str) -> str:
 
 
 def hacer_apuntes(entrada: str, cfg: dict) -> str:
+    if cfg["claude"].get("backend", "cli") == "api":  # extensiones: notas con la API de Anthropic
+        return notas_por_api(entrada, cfg)
     ejecutable = ruta_claude()
     if not ejecutable:
         raise ErrorApuntes("No encuentro el comando `claude`. Instala Claude Code (ver la guía) "
@@ -1138,6 +1140,35 @@ def cmd_vigilar(cfg: dict, intervalo: int, abrir_ls: bool = True) -> int:
         time.sleep(intervalo)
 
 
+# --- extensiones (aplicar_extensiones.py) ---
+# Cargan extensiones/ solo cuando se usan: sin esa carpeta o sin sus paquetes, todo sigue igual.
+
+def notas_por_api(entrada: str, cfg: dict) -> str:
+    from extensiones import notas_api
+    from extensiones.comun import ErrorExtension
+    try:
+        return notas_api.hacer_apuntes(entrada, cfg)
+    except ErrorExtension as e:
+        raise ErrorApuntes(str(e)) from None
+
+
+def registrar_extensiones(parser) -> None:
+    try:
+        from extensiones import cli
+    except ImportError:
+        return
+    cli.registrar_comandos(parser)
+
+
+def comando_extension(args, cfg: dict) -> int:
+    from extensiones import cli
+    from extensiones.comun import ErrorExtension
+    try:
+        return cli.ejecutar(args, cfg)
+    except ErrorExtension as e:
+        raise ErrorApuntes(str(e)) from None
+
+
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
     if argv[:2] == ["make", "pizza"]:  # lets make pizza = abrir LocalSend y quedarse de turno
@@ -1167,10 +1198,13 @@ def main(argv: list[str] | None = None) -> int:
     sv.set_defaults(accion="turno")
     sv.add_argument("--cada", type=int, default=60, help="segundos entre revisiones (default: 60)")
     sv.add_argument("--sin-localsend", action="store_true", help="no abrir LocalSend al empezar")
+    registrar_extensiones(p)  # extensiones: pregunta, cuenta, cotiza, despensa
     args = p.parse_args(argv)
 
     try:
         cfg = cargar_config()
+        if getattr(args, "accion_extension", None):  # extensiones
+            return comando_extension(args, cfg)
         if args.accion == "hornea":
             return cmd_procesar(cfg)
         if args.accion == "menu":

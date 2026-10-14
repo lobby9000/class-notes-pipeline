@@ -55,6 +55,9 @@ vocabulario = [
 ]
 
 [claude]
+# "cli": las notas las escribe Claude Code con tu suscripción (como siempre).
+# "api": las escribe la API de Anthropic; cada llamada se cobra y queda en `pizza cuenta`.
+backend = "cli"
 # false = solo transcribe (útil mientras instalas Claude Code)
 activar = true
 # "sonnet", "opus", "haiku" o "" para el modelo por defecto de tu cuenta
@@ -79,3 +82,28 @@ abrir = true
 # Vacío = lo busca solo (paquete .deb, Snap, Flatpak o AppImage en ~/Applications o Descargas).
 # Si no lo encuentra, pon aquí cómo se abre, por ejemplo "~/Applications/LocalSend.AppImage"
 comando = ""
+
+# ------------------------------------------------------------------ extensiones (EXTENSIONES.md)
+
+# Modelo por tarea: opus, sonnet, haiku o un id completo de la API.
+# En modo cli las notas usan [claude] modelo; las preguntas usan "pregunta" en los dos modos.
+[claude.modelos]
+clase = "opus"        # clases largas: la mejor calidad
+reunion = "sonnet"    # reuniones: más cortas, la mitad de precio
+pregunta = "haiku"    # preguntas a tus clases: rápido y barato
+
+[api]
+# Tu API key va en este archivo (con chmod 600) o en la variable ANTHROPIC_API_KEY.
+archivo_clave = "~/.config/apuntes-clase/anthropic_api_key"
+# Precios de referencia en USD por millón de tokens (claude.com/pricing, octubre 2026).
+# Si cambian, agrega por ejemplo:
+# [api.precios."claude-opus-5-5"]
+# entrada = 4.0
+# salida = 20.0
+
+[preguntas]
+# Modelo de embeddings de la despensa. Se descarga la primera vez (unos 640 MB).
+# Más ligero (220 MB, un poco menos preciso): "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+modelo_embeddings = "jinaai/jina-embeddings-v2-base-es"
+fragmentos = 8        # cuántos fragmentos recibe Claude de entrada
+busquedas_extra = 2   # cuántas búsquedas más puede pedir el agente (modo api)
