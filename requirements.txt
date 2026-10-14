@@ -1,0 +1,4 @@
+# Installed into .venv by instalar.sh. Python 3.11 or newer.
+faster-whisper>=1.1,<2
+# PyAV 19 removed a parameter that faster-whisper uses to decode audio.
+av<19

@@ -1,0 +1,16 @@
+/* Hace visibles los agregados de Claude en las notas de clase y reunión.
+   Instalación: copia este archivo a <tu vault>/.obsidian/snippets/
+   y actívalo en Obsidian: Ajustes > Apariencia > Fragmentos CSS. */
+
+/* Bloques > [!claude] con color e ícono propios */
+.callout[data-callout="claude"] {
+  --callout-color: 124, 58, 237;
+  --callout-icon: lucide-sparkles;
+}
+
+/* En las notas generadas (llevan cssclasses: apuntes-claude), la cursiva es
+   siempre un agregado de Claude: se pinta del mismo color. No afecta tus otras notas. */
+.apuntes-claude em,
+.apuntes-claude .cm-em {
+  color: rgb(124, 58, 237);
+}

@@ -1,0 +1,81 @@
+# Configuración de apuntes-clase.
+# instalar.sh copia este archivo a config.toml: edita config.toml, no este.
+# Las rutas pueden empezar con ~ (tu carpeta personal).
+
+[carpetas]
+# Donde dejas los videos del diplomado que pasas de la tablet
+videos = "~/Videos/raw_finance"
+# Transcripciones, registro de lo procesado, respaldos y pruebas
+trabajo = "~/Videos/apuntes_finance"
+# Tu vault de Obsidian: la carpeta que abres en Obsidian. CÁMBIALA.
+vault = "~/Obsidian/CAMBIA_ESTO"
+# Subcarpetas dentro del vault (se crean solas)
+notas = "Diplomado Finanzas"      # clases del diplomado + su índice
+sueltas = "Notas sueltas"         # clases aparte y reuniones (apuntes suelto)
+conceptos = "Conceptos"           # una página por concepto enlazado
+
+[diplomado]
+curso = "Diplomado en finanzas"
+materia = "finanzas"
+# Nombre de cada nota. Puedes usar {dia} {mes} {semana} {año}
+titulo = "Clase {dia} {mes}"
+indice = "Índice del diplomado"
+etiquetas = ["diplomado", "finanzas", "clase"]
+# Una grabación que empieza antes de esta hora cuenta como parte de la clase del día anterior
+corte_madrugada = 5
+# Con `apuntes vigilar`: minutos sin partes nuevas antes de escribir la nota
+espera_minutos = 10
+
+[whisper]
+# "small"  rápido, buena calidad en español
+# "medium" más preciso, bastante más lento en CPU
+# "turbo"  el más preciso de los tres; en CPU conviene dejarlo corriendo de noche
+# Corre `apuntes prueba` para ver cuánto tarda cada uno en tu laptop.
+modelo = "small"
+idioma = "es"
+# int8 es lo más rápido en CPU sin perder calidad apreciable
+precision = "int8"
+# Hilos de CPU; 0 = automático. Tu Ryzen 7 3700U tiene 4 núcleos y 8 hilos.
+hilos = 0
+# 5 = más preciso, 1 = más rápido
+beam_size = 5
+# Salta los silencios: más rápido y evita que Whisper invente texto
+saltar_silencios = true
+# Si ves frases repetidas en bucle en una transcripción, cámbialo a false
+usar_contexto = true
+# Las grabaciones largas se transcriben en tramos de estos minutos (cortados en silencios).
+# Con 8 GB de RAM no se puede de una sola vez: 2 horas completas piden más de 6 GB.
+minutos_por_tramo = 10
+# Palabras del diplomado que Whisper debe escribir bien. Agrega las de cada módulo.
+vocabulario = [
+  "ISR", "IVA", "SAT", "UMA", "CFDI", "IMSS", "deducciones", "salario diario integrado",
+  "amortización", "anualidad", "tasa nominal", "tasa efectiva", "capitalización",
+  "valor presente", "valor futuro", "VPN", "TIR", "flujo de efectivo", "EBITDA",
+  "BMV", "FEMSA", "portafolio", "Plant Pals",
+]
+
+[claude]
+# false = solo transcribe (útil mientras instalas Claude Code)
+activar = true
+# "sonnet", "opus", "haiku" o "" para el modelo por defecto de tu cuenta
+modelo = "sonnet"
+# Instrucciones para cada tipo de nota (relativo a la carpeta del proyecto)
+prompt_clase = "prompts/clase.md"
+prompt_reunion = "prompts/reunion.md"
+# Minutos máximos de espera por nota
+tiempo_maximo = 30
+# Tope de largo de la respuesta; Claude Code lo recorta al máximo de cada modelo
+max_tokens_salida = 64000
+
+[notas]
+# Agrega la transcripción completa al final de cada nota, plegada
+incluir_transcripcion = true
+# Crea una página en Conceptos/ por cada concepto enlazado que no exista
+crear_conceptos = true
+
+[localsend]
+# `pizza turno` abre LocalSend para que mandes los videos desde la tablet
+abrir = true
+# Vacío = lo busca solo (paquete .deb, Snap, Flatpak o AppImage en ~/Applications o Descargas).
+# Si no lo encuentra, pon aquí cómo se abre, por ejemplo "~/Applications/LocalSend.AppImage"
+comando = ""

@@ -1,0 +1,22 @@
+# Servicio opcional: corre `pizza turno` en segundo plano cada vez que inicias sesión.
+# Instalación (una vez):
+#   mkdir -p ~/.config/systemd/user
+#   cp apuntes-vigilar.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now apuntes-vigilar
+# Ver qué está haciendo:   journalctl --user -u apuntes-vigilar -f
+# Apagarlo:                systemctl --user disable --now apuntes-vigilar
+
+[Unit]
+Description=Pizza de turno: hornea cada clase nueva que llegue a la carpeta
+
+[Service]
+# Como servicio no hay ventana donde abrir LocalSend: ábrelo tú o ponlo a iniciar con tu sesión
+ExecStart=%h/.local/bin/pizza turno --sin-localsend
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PYTHONUNBUFFERED=1
+Restart=on-failure
+RestartSec=60
+
+[Install]
+WantedBy=default.target
