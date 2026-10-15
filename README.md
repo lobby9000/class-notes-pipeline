@@ -8,6 +8,8 @@ Turns four-hour class recordings into structured Obsidian notes with no manual s
 lecture .mp4  →  Whisper on the CPU  →  transcript with part and time marks  →  claude -p  →  note + concept pages + index
 ```
 
+**Try it in your browser:** the [`notes` demo](https://lobby9000.github.io/professional.html?app=terminal&run=notes) on my site ranks the fragments of the sample note with the same BM25 and Spanish stemming as `extensiones/indice.py`, the exact-word half of the hybrid search.
+
 [Versión en español](README.es.md)
 
 ## Why it exists

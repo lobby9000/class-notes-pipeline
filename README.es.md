@@ -10,6 +10,8 @@ videos .mp4  →  Whisper en tu CPU  →  transcripción  →  claude -p  →  n
 
 La transcripción corre local y gratis con [faster-whisper](https://github.com/SYSTRAN/faster-whisper). Solo el texto se manda a Claude, usando tu cuenta de Claude Code.
 
+**Pruébalo en el navegador:** la [demo `notes`](https://lobby9000.github.io/professional.html?app=terminal&run=notes) de mi sitio ordena los fragmentos de la nota de ejemplo con el mismo BM25 y las mismas raíces en español que `extensiones/indice.py`, la mitad de palabras exactas de la búsqueda híbrida.
+
 ## Instalación
 
 ```bash
